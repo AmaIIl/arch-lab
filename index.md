@@ -6,6 +6,6 @@
 sudo apt install tcl tcl-dev tk tk-dev
 sed -i "s/tcl8.5/tcl8.6/g" Makefile
 sed -i "s/CFLAGS=/CFLAGS=-DUSE_INTERP_RESULT /g" Makefile
-cd /sim
+cd sim/
 make clean; make
 ```
