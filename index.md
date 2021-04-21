@@ -89,8 +89,10 @@ test:
 # Stack starts here and grows to lower adddresses
 	.pos 0x200
 stack:
-
 ```
+
+![avatar](https://github.com/AmaIIl/attacklab/blob/gh-pages/image0.png)
+
 然后第二小题的函数实现的功能与第一小题的一致，但是唯一的不同点在于其使用了递归的方式
 ```
 long rsum_list(list_ptr ls)
@@ -110,7 +112,9 @@ long rsum_list(list_ptr ls)
 再往下走就是程序的关键点，与第一小题一样的操作，将ele中对应的val值赋给%r10，然后令其指向下一ele的val值  
 然后便是调用rsum_list本身了，于栈上的状态而言其会将call的下一条指令的地址压入栈内，然后进入函数，如此重复直到其满足退出的条件  
 此时栈上的布局如下图所示，那么我们在设置test的时候只要照着栈上的状态赋值到正确的位置就可以完成递归在汇编层面的实现
-![avatar](https://github.com/AmaIIl/attacklab/blob/gh-pages/image5.png)
+
+![avatar](https://github.com/AmaIIl/attacklab/blob/gh-pages/image0.png)
+
 ```
 main:
 		irmovq ele1, %rdi
@@ -129,5 +133,9 @@ test:
 		popq %r10
 		ret
 ```
+
+![avatar](https://github.com/AmaIIl/attacklab/blob/gh-pages/image0.png)
+
+第一题的最后一个小题，实现copy的功能
 
 
