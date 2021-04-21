@@ -137,5 +137,49 @@ test:
 ![avatar](https://github.com/AmaIIl/attacklab/blob/gh-pages/image0.png)
 
 第一题的最后一个小题，实现copy的功能
+```
+long copy_block(long *src, long *dest, long len)
+{
+    long result = 0;
+    while (len > 0) {
+	long val = *src++;
+	*dest++ = val;
+	result ^= val;
+	len--;
+    }
+    return result;
+}
+```
+观察函数参数不难发现前两个参数传入的都是数组的首地址，而关于数组的操作在csapp中有源码可以直接仿照那个来  
+最后需要完成的功能是将src中的内容复制到dest的内存中，并让返回值result等于src元素的总和  
+因为这个题只要照着源函数改而且跟书上的例子太像了所以感觉是这三个里最好做的一个
+```
+main:
+		irmovq $8, %r8
+		irmovq $1, %r9
+		irmovq src, %rdi
+		irmovq dest, %rsi
+		irmovq $3, %rdx
+		xorq %rax, %rax
+		call copy_block1
+		ret
+copy_block1:
+		andq %rdi, %rdi
+		jmp test
+copy_block2:
+		mrmovq (%rdi), %r10
+		rmmovq %r10, (%rsi)
+		xorq %r10, %rax
+		addq %r8, %rdi
+		addq %r8, %rsi
+		subq %r9, %rdx
+test:
+		jne copy_block2
+		ret
+```
+
+![avatar](https://github.com/AmaIIl/attacklab/blob/gh-pages/image0.png)
+
+
 
 
