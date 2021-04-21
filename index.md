@@ -91,5 +91,43 @@ test:
 stack:
 
 ```
+然后第二小题的函数实现的功能与第一小题的一致，但是唯一的不同点在于其使用了递归的方式
+```
+long rsum_list(list_ptr ls)
+{
+    if (!ls)
+	return 0;
+    else {
+	long val = ls->val;
+	long rest = rsum_list(ls->next);
+	return val + rest;
+    }
+}
+```
+嗯...第一次写汇编的递归，脑子经过一阵混乱之后逐渐明白了一切  
+于递归而言需要保存上一个函数时变量的值，这里用栈来实现  
+在rsum函数中递归的停止条件是当其指向的区域为0时则返回0，这里可以用到汇编中经常使用的一个组合"and je"对其是否为0进行判断跳转  
+再往下走就是程序的关键点，与第一小题一样的操作，将ele中对应的val值赋给%r10，然后令其指向下一ele的val值  
+然后便是调用rsum_list本身了，于栈上的状态而言其会将call的下一条指令的地址压入栈内，然后进入函数，如此重复直到其满足退出的条件  
+
+
+```
+main:
+		irmovq ele1, %rdi
+		xorq %rax, %rax	
+		call rsum_list
+		ret
+rsum_list:
+		pushq %r10				
+		andq %rdi, %rdi
+		je test
+		mrmovq (%rdi), %r10
+		mrmovq 8(%rdi), %rdi
+		call rsum_list
+		addq %r10, %rax
+test:
+		popq %r10
+		ret
+```
 
 
