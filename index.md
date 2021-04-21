@@ -109,8 +109,8 @@ long rsum_list(list_ptr ls)
 在rsum函数中递归的停止条件是当其指向的区域为0时则返回0，这里可以用到汇编中经常使用的一个组合"and je"对其是否为0进行判断跳转  
 再往下走就是程序的关键点，与第一小题一样的操作，将ele中对应的val值赋给%r10，然后令其指向下一ele的val值  
 然后便是调用rsum_list本身了，于栈上的状态而言其会将call的下一条指令的地址压入栈内，然后进入函数，如此重复直到其满足退出的条件  
-
-
+此时栈上的布局如下图所示，那么我们在设置test的时候只要照着栈上的状态赋值到正确的位置就可以完成递归在汇编层面的实现
+![avatar](https://github.com/AmaIIl/attacklab/blob/gh-pages/image5.png)
 ```
 main:
 		irmovq ele1, %rdi
