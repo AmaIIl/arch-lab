@@ -80,10 +80,9 @@ sum_list:
 loop:
 		mrmovq (%rdi), %r10
 		addq %r10, %rax
-		mrmovq 8(%rdi), %r10
-		rrmovq %r10, %rdi
+		mrmovq 8(%rdi), %rdi
 test:
-		andq %rdi, %rdi   //Set CC, 在进行循环以前设置
+		andq %rdi, %rdi
 		jne loop
 		ret
 
@@ -92,4 +91,5 @@ test:
 stack:
 
 ```
+
 
