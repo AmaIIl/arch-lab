@@ -191,6 +191,7 @@ test:
 icode(指令代码), ifun(指令功能), rA rB(表示是什么寄存器), valC(4字节常数), valP(指令地址)  
 valA valB(寄存器中的值), ALU(算术逻辑单元), valM(从内存中读取出的值)  
 对照着irmovq可以写出如下内容
+```
 fetch:
 	icode: ifun <- M1[PC]
 	rA:rB <- M1[PC+1]
@@ -205,5 +206,5 @@ write back:
 	R[rB]<-ValE
 PC update:
 	PC <- valP
-
+```
 	
