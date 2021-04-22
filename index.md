@@ -185,6 +185,9 @@ test:
 
 ![avatar](https://github.com/AmaIIl/attacklab/blob/gh-pages/image0.png)
 
+
 取指(fetch), 译码(decode), 执行(execute), 访存(memory), 写回(write back), 更新PC(PC update)  
+
 icode(指令代码), ifun(指令功能), rA rB(表示是什么寄存器), valC(4字节常数), valP(指令地址)  
-valA valB(寄存器中的值), ALU(算术逻辑单元), 根据ifun(指令功能)进行实现, valM(从内存中读取出的值)  
+valA valB(寄存器中的值), ALU(算术逻辑单元), valM(从内存中读取出的值)  
+
