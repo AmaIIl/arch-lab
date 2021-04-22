@@ -9,7 +9,7 @@ sed -i "s/CFLAGS=/CFLAGS=-DUSE_INTERP_RESULT /g" Makefile
 cd sim/
 make clean; make
 ```
-## Phase_1
+## Pase A
 第一题共分为三个小题，要求我们以Y86-64的汇编代码实现example.c里的函数
 ```
 typedef struct ELE {
@@ -180,7 +180,7 @@ test:
 
 ![avatar](https://github.com/AmaIIl/attacklab/blob/gh-pages/image0.png)
 
-## Phase_2
+## Pase B
 修改在/sim/seq目录下的seq-full.hcl文件，使其支持iaddq功能。在书上第254页的练习题4.3中有给出iaddq的格式，如下图所示  
 
 ![avatar](https://github.com/AmaIIl/attacklab/blob/gh-pages/image0.png)
@@ -207,4 +207,48 @@ write back:
 PC update:
 	PC <- valP
 ```
-	
+然后在文档中修改对应位置的数值
+### Fetch
+```
+bool instr_valid = icode in 
+	{ INOP, IHALT, IRRMOVQ, IIRMOVQ, IRMMOVQ, IMRMOVQ,
+	       IOPQ, IJXX, ICALL, IRET, IPUSHQ, IPOPQ, IIADDQ };
+bool need_regids =
+	icode in { IRRMOVQ, IOPQ, IPUSHQ, IPOPQ, 
+		     IIRMOVQ, IRMMOVQ, IMRMOVQ, IIADDQ };
+bool need_valC =
+	icode in { IIRMOVQ, IRMMOVQ, IMRMOVQ, IJXX, ICALL, IIADDQ };
+```
+### Decode
+```
+word srcB = [
+	icode in { IOPQ, IRMMOVQ, IMRMOVQ, IIADDQ  } : rB;
+	icode in { IPUSHQ, IPOPQ, ICALL, IRET } : RRSP;
+	1 : RNONE;  # Don't need register
+];
+word dstE = [
+	icode in { IRRMOVQ } && Cnd : rB;
+	icode in { IIRMOVQ, IOPQ, IIADDQ} : rB;
+	icode in { IPUSHQ, IPOPQ, ICALL, IRET } : RRSP;
+	1 : RNONE;  # Don't write any register
+];
+```
+### Execute
+```
+word aluA = [
+	icode in { IRRMOVQ, IOPQ } : valA;
+	icode in { IIRMOVQ, IRMMOVQ, IMRMOVQ, IIADDQ } : valC;
+	icode in { ICALL, IPUSHQ } : -8;
+	icode in { IRET, IPOPQ } : 8;
+	# Other instructions don't need ALU
+];
+word aluB = [
+	icode in { IRMMOVQ, IMRMOVQ, IOPQ, ICALL, 
+		      IPUSHQ, IRET, IPOPQ, IIADDQ } : valB;
+	icode in { IRRMOVQ, IIRMOVQ } : 0;
+	# Other instructions don't need ALU
+];
+bool set_cc = icode in { IOPQ, IIADDQ };
+```
+
+## Pase C
