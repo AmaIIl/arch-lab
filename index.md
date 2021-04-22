@@ -274,3 +274,32 @@ make VERSION=full
 ![avatar](https://github.com/AmaIIl/attacklab/blob/gh-pages/image0.png)
 
 ## Pase C
+本题要求优化ncopy.ys中的汇编代码，代码旁边的注释很人性化的全给列出来是个啥意思了，因为刚做完part B的缘故所以代码中立即数与寄存器相加这块可以直接替换掉  
+然后诡异的就来了，嗯。。。我真的只是替换了一下iaddq的内容，结果试着跑了一下直接跑了满分。。。  
+```
+ncopy:
+	xorq %rax,%rax		# count = 0;
+	andq %rdx,%rdx		# len <= 0?
+	jle Done		# if so, goto Done:
+
+Loop:	
+   	mrmovq (%rdi), %r10	# read val from src...
+	rmmovq %r10, (%rsi)	# ...and store it to dst
+	andq %r10, %r10		# val <= 0?
+	jle Npos		    # if so, goto Npos:
+	iaddq $1, %rax		# count++
+Npos:	
+ 	irmovq $1, %r10
+	subq %r10, %rdx		# len--
+	iaddq $8, %rdi		# src++
+	iaddq $8, %rsi		# dst++
+	andq %rdx,%rdx		# len > 0?
+	jg Loop			# if so, goto Loop:
+Done:
+	ret
+End:
+```
+
+![avatar](https://github.com/AmaIIl/attacklab/blob/gh-pages/image0.png)
+
+
