@@ -185,7 +185,6 @@ test:
 
 ![avatar](https://github.com/AmaIIl/attacklab/blob/gh-pages/image0.png)
 
-
 取指(fetch), 译码(decode), 执行(execute), 访存(memory), 写回(write back), 更新PC(PC update)  
 
 icode(指令代码), ifun(指令功能), rA rB(表示是什么寄存器), valC(4字节常数), valP(指令地址)  
@@ -207,25 +206,31 @@ write back:
 PC update:
 	PC <- valP
 ```
-然后在文档中修改对应位置的数值
+然后在文档中修改对应位置的数值，感觉很像做英语的选词填空题
 ### Fetch
 ```
 bool instr_valid = icode in 
 	{ INOP, IHALT, IRRMOVQ, IIRMOVQ, IRMMOVQ, IMRMOVQ,
 	       IOPQ, IJXX, ICALL, IRET, IPUSHQ, IPOPQ, IIADDQ };
+
+# Does fetched instruction require a regid byte?
 bool need_regids =
 	icode in { IRRMOVQ, IOPQ, IPUSHQ, IPOPQ, 
 		     IIRMOVQ, IRMMOVQ, IMRMOVQ, IIADDQ };
+
+# Does fetched instruction require a constant word?
 bool need_valC =
 	icode in { IIRMOVQ, IRMMOVQ, IMRMOVQ, IJXX, ICALL, IIADDQ };
 ```
 ### Decode
 ```
+## What register should be used as the B source?
 word srcB = [
 	icode in { IOPQ, IRMMOVQ, IMRMOVQ, IIADDQ  } : rB;
 	icode in { IPUSHQ, IPOPQ, ICALL, IRET } : RRSP;
 	1 : RNONE;  # Don't need register
 ];
+## What register should be used as the E destination?
 word dstE = [
 	icode in { IRRMOVQ } && Cnd : rB;
 	icode in { IIRMOVQ, IOPQ, IIADDQ} : rB;
@@ -235,6 +240,7 @@ word dstE = [
 ```
 ### Execute
 ```
+## Select input A to ALU
 word aluA = [
 	icode in { IRRMOVQ, IOPQ } : valA;
 	icode in { IIRMOVQ, IRMMOVQ, IMRMOVQ, IIADDQ } : valC;
@@ -242,13 +248,29 @@ word aluA = [
 	icode in { IRET, IPOPQ } : 8;
 	# Other instructions don't need ALU
 ];
+
+## Select input B to ALU
 word aluB = [
 	icode in { IRMMOVQ, IMRMOVQ, IOPQ, ICALL, 
 		      IPUSHQ, IRET, IPOPQ, IIADDQ } : valB;
 	icode in { IRRMOVQ, IIRMOVQ } : 0;
 	# Other instructions don't need ALU
 ];
+## Should the condition codes be updated?
 bool set_cc = icode in { IOPQ, IIADDQ };
 ```
+然后在编译的时候一直失败，后来找到了解决的办法  
+在ssim.c中注释掉下面两行代码  
+```
+extern int matherr();
+int *tclDummyMathPtr = (int *) matherr;
+```
+然后就可以很丝滑的编译成功并测试了
+```
+make VERSION=full
+./ssim -t ../y86-code/asumi.yo
+```
+
+![avatar](https://github.com/AmaIIl/attacklab/blob/gh-pages/image0.png)
 
 ## Pase C
