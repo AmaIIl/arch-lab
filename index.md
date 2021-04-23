@@ -274,7 +274,13 @@ make VERSION=full
 ![avatar](https://github.com/AmaIIl/attacklab/blob/gh-pages/image0.png)
 
 ## Pase C
-本题要求优化ncopy.ys中的汇编代码，代码旁边的注释很人性化的全给列出来是个啥意思了，因为刚做完part B的缘故所以代码中立即数与寄存器相加这块可以直接替换掉  
+本题要求优化ncopy.ys中的汇编代码，代码旁边的注释很人性化的全给列出来是个啥意思了，因为刚做完part B的缘故所以代码中立即数与寄存器相加这块可以直接替换掉
+这样修改完成后成绩是13.7  
+
+![avatar](https://github.com/AmaIIl/attacklab/blob/gh-pages/image0.png)
+
+
+
 
 
 
