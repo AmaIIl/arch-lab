@@ -91,7 +91,7 @@ test:
 stack:
 ```
 
-![avatar](https://github.com/AmaIIl/attacklab/blob/gh-pages/image0.png)
+![avatar](https://github.com/AmaIIl/arch-lab/blob/gh-pages/image1.png)
 
 然后第二小题的函数实现的功能与第一小题的一致，但是唯一的不同点在于其使用了递归的方式
 ```
@@ -113,7 +113,7 @@ long rsum_list(list_ptr ls)
 然后便是调用rsum_list本身了，于栈上的状态而言其会将call的下一条指令的地址压入栈内，然后进入函数，如此重复直到其满足退出的条件  
 此时栈上的布局如下图所示，那么我们在设置test的时候只要照着栈上的状态赋值到正确的位置就可以完成递归在汇编层面的实现
 
-![avatar](https://github.com/AmaIIl/attacklab/blob/gh-pages/image0.png)
+![avatar](https://github.com/AmaIIl/arch-lab/blob/gh-pages/image2.png)
 
 ```
 main:
@@ -134,7 +134,7 @@ test:
 		ret
 ```
 
-![avatar](https://github.com/AmaIIl/attacklab/blob/gh-pages/image0.png)
+![avatar](https://github.com/AmaIIl/arch-lab/blob/gh-pages/image2.1.png)
 
 第一题的最后一个小题，实现copy的功能
 ```
@@ -178,12 +178,12 @@ test:
 		ret
 ```
 
-![avatar](https://github.com/AmaIIl/attacklab/blob/gh-pages/image0.png)
+![avatar](https://github.com/AmaIIl/arch-lab/blob/gh-pages/image3.png)
 
 ## Pase B
 修改在/sim/seq目录下的seq-full.hcl文件，使其支持iaddq功能。在书上第254页的练习题4.3中有给出iaddq的格式，如下图所示  
 
-![avatar](https://github.com/AmaIIl/attacklab/blob/gh-pages/image0.png)
+![avatar](https://github.com/AmaIIl/arch-lab/blob/gh-pages/image4.png)
 
 取指(fetch), 译码(decode), 执行(execute), 访存(memory), 写回(write back), 更新PC(PC update)  
 
@@ -271,11 +271,14 @@ make VERSION=full
 ./ssim -t ../y86-code/asumi.yo
 ```
 
-![avatar](https://github.com/AmaIIl/attacklab/blob/gh-pages/image0.png)
+![avatar](https://github.com/AmaIIl/attacklab/blob/gh-pages/image5.png)
 
 ## Pase C
 本题要求优化ncopy.ys中的汇编代码，代码旁边的注释很人性化的全给列出来是个啥意思了，因为刚做完part B的缘故所以代码中立即数与寄存器相加这块可以直接替换掉
 这样修改完成后成绩是13.7  
+
+![avatar](https://github.com/AmaIIl/attacklab/blob/gh-pages/image6.png)
+
 第四第五章的内容一周时间内能学会的终究有限，Part C中涉及的流水线和性能优化这方面的知识打算放一下后面时间充裕了再回来继续学。
 
 
