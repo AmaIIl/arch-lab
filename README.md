@@ -271,13 +271,13 @@ make VERSION=full
 ./ssim -t ../y86-code/asumi.yo
 ```
 
-![avatar](https://github.com/AmaIIl/attacklab/blob/gh-pages/image5.png)
+![avatar](https://github.com/AmaIIl/arch-lab/blob/gh-pages/image5.png)
 
 ## Pase C
 本题要求优化ncopy.ys中的汇编代码，代码旁边的注释很人性化的全给列出来是个啥意思了，因为刚做完part B的缘故所以代码中立即数与寄存器相加这块可以直接替换掉
 这样修改完成后成绩是13.7  
 
-![avatar](https://github.com/AmaIIl/attacklab/blob/gh-pages/image6.png)
+![avatar](https://github.com/AmaIIl/arch-lab/blob/gh-pages/image6.png)
 
 第四第五章的内容一周时间内能学会的终究有限，Part C中涉及的流水线和性能优化这方面的知识打算放一下后面时间充裕了再回来继续学。
 
